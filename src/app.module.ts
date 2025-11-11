@@ -15,21 +15,21 @@ import { CommonModule } from './common/common.module';
 import { QueuesModule } from './queues/queues.module';
 
 @Module({
-  imports: [
-    AuthModule,
-    CompaniesModule,
-    JobsModule,
-    CandidatesModule,
-    ApplicationsModule,
-    ResumeParserModule,
-    ScoringModule,
-    IntegrationsModule,
-    NotificationsModule,
-    AnalyticsModule,
-    CommonModule,
-    QueuesModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        AuthModule,
+        CompaniesModule,
+        JobsModule,
+        CandidatesModule,
+        ApplicationsModule,
+        ResumeParserModule,
+        ScoringModule,
+        IntegrationsModule,
+        NotificationsModule,
+        AnalyticsModule,
+        CommonModule,
+        QueuesModule,
+    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import { ScoringController } from './scoring.controller';
 import { ScoringService } from './scoring.service';
 
 @Module({
-  controllers: [ScoringController],
-  providers: [ScoringService]
+    controllers: [ScoringController],
+    providers: [ScoringService],
 })
 export class ScoringModule {}

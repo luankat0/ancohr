@@ -3,7 +3,7 @@ import { ResumeParserController } from './resume-parser.controller';
 import { ResumeParserService } from './resume-parser.service';
 
 @Module({
-  controllers: [ResumeParserController],
-  providers: [ResumeParserService]
+    controllers: [ResumeParserController],
+    providers: [ResumeParserService],
 })
 export class ResumeParserModule {}
