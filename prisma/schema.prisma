@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  CANDIDATE
+  COMPANY
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  password String
+  userType UserType
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidate Candidate?
+  company Company?
+
+  @@map("users")
+}
+
+model Candidate {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Dados pessoais
+  fullName String
+  phone String?
+  cpf String? @unique
+  dateOfBirth DateTime?
+
+  // Endereço
+  address Json? // { street, city, state, zipCode, country }
+
+  // Profissional
+  linkedinUrl String?
+  resumeUrl String? // URL do S3/R2
+  skills String[]
+  bio String? @db.Text
+
+  // Metadata
+  metadata Json? // Dados flexíveis adicionais
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("candidates")
+}
+
+model Company {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Dados da empresa
+  companyName String
+  cnpj String @unique
+  website String?
+  industry String? // Setor de atuação
+  size String? // Porte da empresa (pequena, média, grande)
+
+  // Contato
+  phone String?
+  address Json? // { street, city, state, zipCode, country }
+
+  // Descrição
+  description String? @db.Text
+  logoUrl String?
+
+  // Metadata
+  metadata Json? // Dados flexíveis adicionais
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("companies")
+}
+
+model RefreshToken {
+  id String @id @default(cuid())
+  token String @unique
+  userId String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+  @@index([userId])
+}
