@@ -13,9 +13,14 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { CommonModule } from './common/common.module';
 import { QueuesModule } from './queues/queues.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: '.env',
+        }),
         AuthModule,
         CompaniesModule,
         JobsModule,
