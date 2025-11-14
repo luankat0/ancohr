@@ -51,8 +51,8 @@ export class AuthService {
                     create: {
                         fullName: dto.fullName,
                         phone: dto.phone,
-                        cpf: dto.phone,
-                        dataOfBirth: dto.dateOfBirth ? new Date(dto.dateOfBirth) : null,
+                        cpf: dto.cpf,
+                        dateOfBirth: dto.dateOfBirth ? new Date(dto.dateOfBirth) : null,
                     },
                 },
             },
@@ -75,7 +75,6 @@ export class AuthService {
             },
             ...tokens,
         };
-
     }
 
     async RegisterCompanyDto(dto: RegisterCompanyDto) {
@@ -116,7 +115,7 @@ export class AuthService {
             },
         });
 
-        const tokens = this.generateTokens(user.id, user.email, user.userType);
+        const tokens = await this.generateTokens(user.id, user.email, user.userType);
 
         return {
             user: {
@@ -165,7 +164,7 @@ export class AuthService {
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
-        const tokens = this.generateTokens(user.id, user.email, user.userType);
+        const tokens = await this.generateTokens(user.id, user.email, user.userType);
 
         return {
             user: {
@@ -199,7 +198,7 @@ export class AuthService {
         }
     }
 
-    private generateTokens(
+    private async generateTokens(
         userId: string,
         email: string,
         userType: 'CANDIDATE' | 'COMPANY',

@@ -14,6 +14,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { CommonModule } from './common/common.module';
 import { QueuesModule } from './queues/queues.module';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './modules/database/database.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { ConfigModule } from '@nestjs/config';
         AnalyticsModule,
         CommonModule,
         QueuesModule,
+        DatabaseModule,
     ],
     controllers: [AppController],
     providers: [AppService],

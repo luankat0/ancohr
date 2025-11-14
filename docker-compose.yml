@@ -2,17 +2,18 @@ services:
   app:
     build:
       context: .
-      args:
-        - DATABASE_URL=${DATABASE_URL} 
     ports:
       - '3000:3000'
     env_file:
       - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    # Roda migrations ao iniciar
+    command: sh -c "pnpm typeorm migration:run -d dist/config/typeorm.config.js && node dist/main.js"
   
   db:
-    image: postgres
+    image: postgres:16-alpine
     restart: always
     env_file:
       - .env
@@ -20,6 +21,12 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # Healthcheck para garantir que o DB está pronto
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-ancohr_pgdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   
 volumes:
   postgres_data:
